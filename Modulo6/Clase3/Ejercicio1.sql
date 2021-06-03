@@ -1,0 +1,102 @@
+CREATE USER Juanito
+IDENTIFIED BY 9$_Q.mDa
+DEFAULT TABLESPACE usuaurios
+QUOTA 100K ON usuaurios
+TEMPORARY TABLESPACE temporal
+PROFILE cajero:
+GRANT CREATE SESSION TO Juanito
+
+--Corregido
+CREATE PROFILE cajero LIMIT;
+/*CREATE TEMPORARY TABLESPACE temporal
+    TEMPFILE 'temporal.dbf' 
+    SIZE 500k;*/
+
+CREATE USER Juanito
+IDENTIFIED BY "9$_Q.mDa"
+DEFAULT TABLESPACE usuaurios
+QUOTA 100K ON usuaurios
+PROFILE cajero;
+GRANT CREATE SESSION TO Juanito;
+
+
+--Caso2
+CREATE USER Adriana
+IDENTIFIED BY conta123
+DEFAULT TABLESPACE usuaurios
+QUOTA 250K ON usuaurios
+PROFILE aux_conta
+PASSWORD EXPIRE;
+
+--Corregido
+CREATE PROFILE aux_conta LIMIT;
+
+--Caso3
+SELECT username USUARIO,
+	account_status ESTATUS
+	FROM DBA_USERS;
+
+--Caso4
+CREATE USER goku
+IDENTIFIED BY sayayin1
+DEFAULT TABLESPACE usuaurios
+QUOTA 10M ON usuaurios
+TEMPORARY TABLESPACE temp
+QUOTA 5M ON system
+PASSWORD EXPIRE;
+
+--Caso5
+GRANT CREATE SESSION TO goku;
+CONN goku/sayayin1
+
+--Caso 6
+SELECT username USUARIO,
+	account_status ESTATUS
+	FROM DBA_USERS
+	WHERE username = 'GOKU';
+
+--Caso 8
+SELECT username	
+	FROM DBA_USERS;
+
+SELECT username	
+	FROM DBA_USERS
+	WHERE username 
+	LIKE 'G%';
+
+SELECT username	
+	FROM DBA_USERS
+	WHERE username 
+	LIKE '%U';
+
+SELECT username	
+	FROM DBA_USERS
+	WHERE username 
+	LIKE '_O%';
+
+SELECT username	
+	FROM DBA_USERS
+	WHERE username 
+	LIKE '%O%';
+
+--Caso9
+CREATE USER nappa IDENTIFIED BY sayayin2
+SELECT username FROM ALL_USERS;
+
+--Caso10
+DROP USER nappa;
+CREATE USER "nappa" IDENTIFIED BY sayayin2;
+SELECT username FROM ALL_USERS;
+
+--Caso11
+CREATE USER krillin IDENTIFIED BY soy123456789012345678901234567;
+CREATE USER bulma IDENTIFIED BY soy1234567890123456789012345678;
+
+--Caso12
+conn sys as sysdba
+SELECT d.username USUARIO, u.account_status ESTATUS
+FROM DBA_USERS_WITH_DEFPWD d, DBA_USERS u
+WHERE d.username = u.username
+ORDER BY 2,1;
+
+ALTER USER SCOTT ACCOUNT UNLOCK IDENTIFIED BY [password] 12_may
